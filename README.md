@@ -18,21 +18,22 @@ This project explores the relationship between financial news sentiment and stoc
 - **`Modelling.ipynb`**  
   Builds and trains predictive models using sentiment and price data.
 
-- **`historical_stock_data/`**  
-  Contains CSV files with historical stock prices.  
-  └── `Foolad_stock.csv`
+- **`Foolad_stock.csv`**  
+  Historical stock price data file located in the root directory.
+
+- **`sentiment_results_with_probs.csv`**  
+  Sentiment analysis result file located in the root directory.
+
+- **`fine_tuned_model/`**  
+  Contains the pre-trained Persian BERT model used for sentiment classification.
 
 - **`raw_news_data/`**  
-  Categorized financial news files scraped from EghtesadOnline across various sectors:
-  - `EghtesadOnline-currency-400-403.csv`: News articles related to currencies.
-  - `EghtesadOnline-energy-400-403.csv`: News about the energy sector (e.g., oil, gas).
-  - `EghtesadOnline-industry-400-403.csv`: Industry and production-focused news.
-  - `EghtesadOnline-interior-economy-400-403.csv`: Domestic economic affairs and policies.
-  - `EghtesadOnline-stock-market-400-403.csv`: News related to stock market movements and trends.
-
-- **`sentiment_outputs/`**  
-  Contains the results of sentiment analysis performed on the news articles.  
-  └── `sentiment_results_with_probs.csv`
+  Categorized financial news files scraped from EghtesadOnline:
+  - `EghtesadOnline-currency-400-403.csv`
+  - `EghtesadOnline-energy-400-403.csv`
+  - `EghtesadOnline-industry-400-403.csv`
+  - `EghtesadOnline-interior-economy-400-403.csv`
+  - `EghtesadOnline-stock-market-400-403.csv`
 
 ---
 
@@ -40,59 +41,42 @@ This project explores the relationship between financial news sentiment and stoc
 
 ### 📰 Financial News
 
-The news articles were manually scraped from **[EghtesadOnline](https://www.eghtesadonline.com/)** — a Persian-language financial news agency — over the Persian calendar years **1400 to 1403**. News was categorized based on the original section of the website:
+News articles were scraped from **[EghtesadOnline](https://www.eghtesadonline.com/)** — a Persian-language financial news agency — spanning Persian calendar years **1400 to 1403**. Articles were categorized by topic and saved as CSV files.
 
-- **Currency**: Coverage of foreign exchange markets and central bank decisions.
-- **Energy**: Articles about oil, gas, and power generation sectors.
-- **Industry**: Manufacturing, production, and heavy industry news.
-- **Interior Economy**: General domestic economic policies, inflation, subsidies, etc.
-- **Stock Market**: Reports and analyses on stock market trends and key companies.
-
-Each news item includes:
+Each entry includes:
 - Date of publication
 - Title
-- Full text content
+- Full article text
 
-The scraped articles were cleaned and formatted into CSV files using Python scripts (see `Extact News.ipynb` and `Data_Wrangling.ipynb`).
-
-The sentiment for each article was evaluated using a fine-tuned BERT model provided by [this GitHub repository](https://github.com/marzinouri/persian-sentiment-analysis/blob/main/downsampled-minimalReportIncluded.ipynb). This project uses the model for inference only and does not retrain or modify it.
+The sentiment for each article was evaluated using a fine-tuned BERT model from [this repository](https://github.com/marzinouri/persian-sentiment-analysis/blob/main/downsampled-minimalReportIncluded.ipynb). This model is stored locally in the `fine_tuned_model/` directory and used for inference only.
 
 ### 📈 Stock Price Data
 
-Stock data was retrieved from publicly available sources (such as Codal.ir or TSETMC.com) and stored in CSV format. In this version of the dataset, only the **Foolad (فولاد مبارکه)** stock price is included (`Foolad_stock.csv`), which contains:
+Stock price data for **Foolad (فولاد مبارکه)** was collected from public financial sources like Codal.ir or TSETMC.com and includes:
 - Date
-- Opening and closing prices
-- Daily highs and lows
-- Volume and trade count
+- Opening/closing prices
+- High/low
+- Volume
 
-This data was used to align sentiment from financial news with actual market performance on corresponding days.
+The sentiment and price data were aligned by date for training and evaluation.
 
 ---
 
 ## 🧠 Models Used
 
-### 🗣️ Sentiment Analysis Model
+### 🗣️ Sentiment Model
 
-The sentiment of each news article is evaluated using a fine-tuned BERT model specifically trained for Persian-language sentiment classification. The model was sourced from [this repository](https://github.com/marzinouri/persian-sentiment-analysis/blob/main/downsampled-minimalReportIncluded.ipynb), and it is used here only for inference — not retrained.
+A pre-trained BERT model fine-tuned on Persian sentiment data was used to classify news articles into categories like positive, neutral, or negative. It is not retrained here — only used for inference from the `fine_tuned_model/` folder.
 
-The model classifies news headlines or full-text articles into sentiment categories (e.g., positive, negative, neutral) along with their associated probabilities.
+### 📈 Price Prediction Model
 
-### 📈 Stock Movement Prediction Model
-
-After preprocessing and feature extraction, sentiment scores are combined with historical stock price data. These features are used to train a regression or classification model (such as Random Forest or Gradient Boosting) to predict future stock movements or price changes. The predictive modeling pipeline is implemented in the `Modelling.ipynb` notebook.
+The final features (including sentiment and price history) were fed into a machine learning model (e.g., Random Forest, Gradient Boosting) to predict future stock trends. This is handled in `Modelling.ipynb`.
 
 ---
 
 ## 📒 Notebook Descriptions
 
-- **`Extact News.ipynb`**  
-  Scrapes and extracts financial news articles. Outputs categorized CSV files.
-
-- **`Data_Wrangling.ipynb`**  
-  Cleans the scraped news and stock data, standardizes date formats, and aligns both sources.
-
-- **`Feature_Extraction.ipynb`**  
-  Applies the pre-trained BERT sentiment model to generate sentiment scores. Combines these with temporal and numerical features.
-
-- **`Modelling.ipynb`**  
-  Trains a machine learning model to predict stock movement based on the engineered features. Includes training, validation, and results visualization.
+- **`Extact News.ipynb`** – Scrapes and extracts raw news articles.
+- **`Data_Wrangling.ipynb`** – Cleans and aligns stock/news data.
+- **`Feature_Extraction.ipynb`** – Applies sentiment model and builds features.
+- **`Modelling.ipynb`** – Trains models and evaluates results.
