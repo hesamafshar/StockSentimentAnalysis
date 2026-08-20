@@ -1,10 +1,10 @@
 # Stock Price Prediction Using Financial News Sentiment
 
-I built this project to examine whether sentiment in Persian financial news can add useful information to stock-price prediction. The case study is Foolad (Mobarakeh Steel) in the Tehran Stock Exchange.
+I built this project to check whether sentiment in Persian financial news could add useful information to stock-price prediction. The case study is Foolad (Mobarakeh Steel) in the Tehran Stock Exchange.
 
-The work started with data collection rather than a ready-made dataset. I collected financial news from EghtesadOnline for the Persian calendar years 1400--1403, grouped the articles by topic, and combined them with historical Foolad stock data. I then processed the Persian text and used a ParsBERT sentiment model to obtain positive, negative, and neutral sentiment scores for the news.
+I did not start from a ready-made dataset. I collected financial news from EghtesadOnline for the Persian calendar years 1400--1403, grouped the articles by topic, and combined them with historical Foolad stock data. I then processed the Persian text and used a ParsBERT sentiment model to get positive, negative, and neutral sentiment scores for the news.
 
-For the forecasting part, I used a Temporal Convolutional Network (TCN). I trained the forecasting setup both with and without the sentiment features so I could compare whether the news information changed the prediction results. The main point of the project was the full research pipeline: collecting the data, finding a suitable NLP and time-series approach, implementing the models, and comparing the two settings.
+For price prediction, I used a Temporal Convolutional Network (TCN). I trained the same forecasting setup once with the sentiment features and once without them so I could directly compare the two cases. Most of the work was done from the beginning: collecting the data, finding suitable NLP and time-series methods, implementing them, and comparing the results.
 
 ## Repository files
 
